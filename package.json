@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "serialport": "^4.0.7"
+    "serialport": "^5.0.0-beta3"
   }
 }

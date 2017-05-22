@@ -15,20 +15,23 @@ SerialPort.list((err, ports) => {
     return;
   }
 
-  port = new SerialPort(port.comName, {
-    autoOpen: true,
-    baudRate: 115200
-  }, (err) => {
-    if (err) {
-      console.error("Couldnt open port", err);
-      return;
-    }
+  const portOpts = {
+        baudRate: 9600,
+        dataBits: 8,
+        parity: 'none',
+        stopBits: 1,
+        parser: SerialPort.parsers.readline
+      };
 
-    let done = port.write('Foo!\n', () => { });
-    if(done) {
-      port.close();
-    } else {
-      port.drain(() => port.close());
-    }
+  port = new SerialPort(port.comName, portOpts);
+
+  port.on('data', (line) => {
+    console.log(line.toString().trim());
   });
+
+  port.on('open', () => {
+    port.write('hello\n');
+  });
+
+  port.on('error', (e) => console.error(e));
 })

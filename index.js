@@ -24,11 +24,11 @@ SerialPort.list((err, ports) => {
       return;
     }
 
-    let mustDrain = port.write('Foo!\n', () => { });
-    if(mustDrain) {
-      port.drain(() => port.close());
-    } else {
+    let done = port.write('Foo!\n', () => { });
+    if(done) {
       port.close();
+    } else {
+      port.drain(() => port.close());
     }
   });
 })
